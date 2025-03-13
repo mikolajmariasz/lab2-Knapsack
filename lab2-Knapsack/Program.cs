@@ -1,4 +1,6 @@
-﻿namespace lab2_Knapsack
+﻿using System.Runtime.CompilerServices;
+
+namespace lab2_Knapsack
 {
     internal class Program
     {
