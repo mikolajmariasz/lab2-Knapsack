@@ -8,19 +8,20 @@ namespace lab2_Knapsack
 {
     class Knapsack
     {
-        public int Capacity { get; set; }
-        public List<Item> Items { get; set; }
+        public int Capacity { get; private set; }
+        public List<Item> Items { get; private set; }
 
-        public Knapsack(int capacity, List<Item> items)
+        public Knapsack(int numberOfItems, int seed, int capacity)
         {
+            Random random = new Random(seed);
+            Items = new List<Item>();
+            for (int i = 0; i < numberOfItems; i++)
+            {
+                int value = random.Next(10);
+                int weight = random.Next(10);
+                Items.Add(new Item(i, value, weight));
+            }
             Capacity = capacity;
-            Items = items;
-        }
-
-        public int SolveKnapsack(List<Item> items)
-        {
-            int n = items.Count();
-            return 0;
         }
     }
 }

@@ -8,12 +8,18 @@ namespace lab2_Knapsack
 {
     class Item
     {
+        public int Index;
         public int Value;
         public int Weight;
-        public Item(int value, int weight)
+        public Item(int index, int value, int weight)
         {
+            Index = index;
             Value = value;
             Weight = weight;
+        }
+        public override string ToString()
+        {
+            return $"Value: {Value}, Weight: {Weight}";
         }
     }
 }
