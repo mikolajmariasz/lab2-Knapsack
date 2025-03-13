@@ -8,18 +8,20 @@ namespace lab2_Knapsack
         {
             Console.Write("Enter seed: ");
             int seed = int.Parse(Console.ReadLine());
-            Knapsack instance = new Knapsack(10, seed, 10);
+            Console.Write("Enter number of items: ");
+            int numberOfItems = int.Parse(Console.ReadLine());
+            Console.Write("Enter capacity of Knapsack: ");
+            int capacity = int.Parse(Console.ReadLine());
+            Knapsack instance = new Knapsack(numberOfItems, seed, capacity);
 
             Console.WriteLine("Generated Items:");
-            foreach (var item in instance.Items)
-                Console.WriteLine(item);
+            instance.printKnapsackItems();
 
-            List<Item> result = KnapsackSolver.Solve(instance);
+            Result result = new Result(KnapsackSolver.Solve(instance));
             Console.WriteLine("\nSelected Items:");
-            foreach (var item in result)
-                Console.WriteLine(item);
-            Console.WriteLine($"Total value: {result.Sum(i => i.Value)}");
-            Console.WriteLine($"Total weight: {result.Sum(i => i.Weight)}");
+            result.printSelectedItems();
+            Console.WriteLine($"Total value: {result.totalValue}");
+            Console.WriteLine($"Total weight: {result.totalWeight}");
         }
     }
 }

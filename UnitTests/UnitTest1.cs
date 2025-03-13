@@ -5,43 +5,65 @@ using System.Linq;
 
 namespace KnapsackTests
 {
-    [TestClass]
     public class KnapsackUnitTests
     {
-        [DataTestMethod]
-        [DataRow(10, 1, 50)]
-        [DataRow(20, 2, 100)]
-        [DataRow(5, 3, 20)]
-        public void TestKnapsackInstance_GeneratesCorrectNumberOfItems(int itemCount, int seed, int capacity)
+        [TestClass]
+        public class KnapsackSolverTests
         {
-            var instance = new Knapsack(itemCount, seed, capacity);
-            Assert.AreEqual(itemCount, instance.Items.Count, $"Expected {itemCount} items, but got {instance.Items.Count}.");
+            [TestMethod]
+            public void Solve_ShouldReturnAtLeastOneItem_WhenAtLeastOneItemFits()
+            {
+                List<Item> items = new List<Item>()
+                {
+                    new Item(1, 10, 7),
+                    new Item(2, 12, 8),
+                    new Item(3, 15, 12),
+                };
+                Knapsack knapsack = new Knapsack(items, 10);
+                var result = KnapsackSolver.Solve(knapsack);
+
+                Assert.IsTrue(result.Count > 0, "At least one item should be returned when one item fits.");
+            }
+
+            [TestMethod]
+            public void Solve_ShouldNoItems_WhenNoItemFits()
+            {
+                List<Item> items = new List<Item>()
+                {
+                    new Item(1, 10, 11),
+                    new Item(2, 12, 12),
+                    new Item(3, 15, 13),
+                };
+                Knapsack knapsack = new Knapsack(items, 10);
+                var result = KnapsackSolver.Solve(knapsack);
+
+                Assert.IsTrue(result.Count == 0, "No item should be returned when no item fits.");
+            }
+
+            [TestMethod]
+            public void Solve_IsResultCorrect()
+            {
+                List<Item> items = new List<Item>()
+                {
+                    new Item(2, 10, 6),
+                    new Item(1, 10, 4),
+                    new Item(3, 10, 7),
+                };
+
+                List<Item> correctResult = new List<Item>()
+                {
+                    new Item(1, 10, 4),
+                    new Item(1, 10, 6),
+
+                };
+                Knapsack knapsack = new Knapsack(items, 10);
+                var result = KnapsackSolver.Solve(knapsack);
+
+                Assert.AreEqual(correctResult, result, "Result and correct result are not equal.");
+            }
+
         }
 
-        [DataTestMethod]
-        [DataRow(10, 1, 50)]
-        [DataRow(15, 2, 75)]
-        [DataRow(8, 5, 40)]
-        public void TestKnapsackSolver_WeightDoesNotExceedCapacity(int itemCount, int seed, int capacity)
-        {
-            var instance = new Knapsack(itemCount, seed, capacity);
-            List<Item> selectedItems = KnapsackSolver.Solve(instance);
-            int totalWeight = selectedItems.Sum(i => i.Weight);
-
-            Assert.IsTrue(totalWeight <= instance.Capacity, $"Total weight {totalWeight} is bigger than capacity {capacity}.");
-        }
-
-        [DataTestMethod]
-        [DataRow(10, 1, 50)]
-        [DataRow(20, 3, 100)]
-        [DataRow(5, 6, 25)]
-        public void TestKnapsackSolver_HasNonEmptySelection(int itemCount, int seed, int capacity)
-        {
-            var instance = new Knapsack(itemCount, seed, capacity);
-            List<Item> selectedItems = KnapsackSolver.Solve(instance);
-
-            Assert.IsTrue(selectedItems.Count > 0, "No items were selected.");
-        }
 
     }
 }

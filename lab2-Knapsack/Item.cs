@@ -23,7 +23,7 @@ namespace lab2_Knapsack
         }
         public override string ToString()
         {
-            return $"Value: {Value}, Weight: {Weight}";
+            return $"{Index}: Value: {Value}, Weight: {Weight}";
         }
     }
 }

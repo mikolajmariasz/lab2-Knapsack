@@ -26,5 +26,17 @@ namespace lab2_Knapsack
             }
             Capacity = capacity;
         }
+
+        public Knapsack(List<Item> items, int capacity)
+        {
+            Capacity = capacity;
+            Items = items;
+        }
+
+        public void printKnapsackItems()
+        {
+            foreach (var item in Items)
+                Console.WriteLine(item);
+        }
     }
 }
