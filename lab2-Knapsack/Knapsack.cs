@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("UnitTests")]
+[assembly: InternalsVisibleTo("GUI")]
 
 namespace lab2_Knapsack
 {

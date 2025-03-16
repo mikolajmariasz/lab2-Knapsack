@@ -10,6 +10,7 @@ namespace KnapsackTests
         [TestClass]
         public class KnapsackSolverTests
         {
+            // Sprawdza czy kiedy conajmniej jeden element sie miesci, wynik zwraca conajmniej jeden element
             [TestMethod]
             public void Solve_ShouldReturnAtLeastOneItem_WhenAtLeastOneItemFits()
             {
@@ -24,7 +25,7 @@ namespace KnapsackTests
 
                 Assert.IsTrue(result.Count > 0, "At least one item should be returned when one item fits.");
             }
-
+            // Sprawdza czy kiedy nie ma zadnego elementu, funkcja rozwiazujaca problem nie zwraca zadnego elementu
             [TestMethod]
             public void Solve_ShouldNoItems_WhenNoItemFits()
             {
@@ -39,7 +40,7 @@ namespace KnapsackTests
 
                 Assert.IsTrue(result.Count == 0, "No item should be returned when no item fits.");
             }
-
+            // Sprawdza poprawnosc rozwiazania dla zdefiniowanej instancji problemu
             [TestMethod]
             public void Solve_IsResultCorrect()
             {
@@ -61,9 +62,28 @@ namespace KnapsackTests
 
                 Assert.AreEqual(correctResult, result, "Result and correct result are not equal.");
             }
-
+            // Sprawdza czy przy tworzeniu instancji problemu generowana jest wlasciwa liczba elementow
+            [DataTestMethod]
+            [DataRow(10, 1, 50)]
+            [DataRow(20, 2, 100)]
+            [DataRow(5, 3, 20)]
+            public void TestKnapsackInstance_GeneratesCorrectNumberOfItems(int itemCount, int seed, int capacity)
+            {
+                var instance = new Knapsack(itemCount, seed, capacity);
+                Assert.AreEqual(itemCount, instance.Items.Count, $"Expected {itemCount} items, but got {instance.Items.Count}.");
+            }
+            // Sprawdza czy po rozwiazaniu problemu waga elementow nie przekracza pojemnosci plecaka
+            [DataTestMethod]
+            [DataRow(10, 1, 50)]
+            [DataRow(15, 2, 75)]
+            [DataRow(8, 5, 40)]
+            public void TestKnapsackSolver_WeightDoesNotExceedCapacity(int itemCount, int seed, int capacity)
+            {
+                var instance = new Knapsack(itemCount, seed, capacity);
+                Result result = new Result(KnapsackSolver.Solve(instance));
+      
+                Assert.IsTrue(result.totalWeight <= instance.Capacity, $"Total weight {result.totalWeight} is bigger than capacity {capacity}.");
+            }
         }
-
-
     }
 }
